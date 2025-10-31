@@ -21,6 +21,7 @@
 
 #include "ngi/ngi.h"
 
+#include "engines/metaengine.h"
 #include "ngi/constants.h"
 #include "ngi/gameloader.h"
 #include "ngi/messages.h"
@@ -2170,7 +2171,7 @@ void ModalSaveGame::setup(Scene *sc, int mode) {
 	for (int i = 0; i < 7; i++) {
 		FileInfo &fileinfo = _files[i];
 
-		Common::strlcpy(fileinfo.filename, getSavegameFile(i), sizeof(fileinfo.filename));
+		Common::strlcpy(fileinfo.filename, g_nmi->getMetaEngine()->getSavegameFile(i,fileinfo.filename).c_str(), sizeof(fileinfo.filename));
 
 		if (!getFileInfo(i, &fileinfo)) {
 			fileinfo.empty = true;
@@ -2200,7 +2201,7 @@ char *ModalSaveGame::getSaveName() {
 
 bool ModalSaveGame::getFileInfo(int slot, FileInfo *fileinfo) {
 	Common::ScopedPtr<Common::InSaveFile> f(g_system->getSavefileManager()->openForLoading(
-		NGI::getSavegameFile(slot)));
+		g_nmi->getMetaEngine()->getSavegameFile(slot,fileinfo->filename)));
 
 	if (!f)
 		return false;

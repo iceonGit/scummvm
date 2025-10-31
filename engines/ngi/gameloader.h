@@ -140,7 +140,6 @@ class GameLoader : public CObject {
 	int _preloadEntranceId;
 };
 
-const char *getSavegameFile(int saveGameIdx);
 WARN_UNUSED_RESULT bool readSavegameHeader(Common::InSaveFile *in, FullpipeSavegameHeader &header, bool skipThumbnail = true);
 void parseSavegameHeader(NGI::FullpipeSavegameHeader &header, SaveStateDescriptor &desc);
 
