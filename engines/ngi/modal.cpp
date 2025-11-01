@@ -2206,15 +2206,15 @@ bool ModalSaveGame::getFileInfo(int slot, FileInfo *fileinfo) {
 	if (!f)
 		return false;
 
-	NGI::FullpipeSavegameHeader header;
-	if (!NGI::readSavegameHeader(f.get(), header))
+	ExtendedSavegameHeader header;
+	if (!MetaEngine::readSavegameHeader(f.get(), &header))
 		return false;
 
 	// Create the return descriptor
 	SaveStateDescriptor desc(g_nmi->getMetaEngine(), slot, header.description);
 	char res[17];
 
-	NGI::parseSavegameHeader(header, desc);
+	MetaEngine::parseSavegameHeader(&header, &desc);
 
 	snprintf(res, sizeof(res), "%s %s", desc.getSaveDate().c_str(), desc.getSaveTime().c_str());
 
